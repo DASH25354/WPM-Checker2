@@ -1,0 +1,84 @@
+/* ===== 共通の基本スタイル ===== */
+body { 
+  font-family: Arial, sans-serif; 
+  padding: 30px; 
+  font-size: 1.5em;         /* 本文 1.5倍 */
+  padding-top: 140px;       /* PC用オーディオ分の余白 */
+  box-sizing: border-box;
+}
+
+h2, h3 {
+  font-size: 1.5em;         /* 見出し 1.5倍 */
+}
+
+#text { 
+  border: 1px solid #ccc; 
+  padding: 30px; 
+  margin-bottom: 30px; 
+  background: #f9f9f9; 
+}
+
+#controls { margin: 30px 0; }
+#questions { margin-top: 30px; }
+
+/* ===== オーディオプレーヤー ===== */
+audio {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transform: scale(1.5);     /* PCで1.5倍 */
+  transform-origin: top left;
+  z-index: 1000;
+  background: #fff;          /* 下が透けないよう白背景 */
+  padding: 10px 0;
+  box-sizing: border-box;
+}
+
+/* ===== ボタンとチェックボックス ===== */
+button {
+  font-size: 1.5em; 
+  padding: 15px 30px;
+  margin: 10px;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.5);    /* チェック欄を大きく */
+  margin-right: 10px;
+}
+
+/* ===== チェックボックスの選択肢行間 ===== */
+.question-option {
+  display: block;
+  margin-bottom: 18px; /* 余白でタップしやすく */
+}
+
+/* ===== モバイル用調整 ===== */
+@media (max-width: 600px) {
+  body { 
+    padding-top: 70px;    /* オーディオ高さを考慮 */
+    font-size: 1.1em;     /* モバイルは少し小さめ */
+  }
+
+  audio {
+    transform: none;      /* モバイルでは拡大せず標準 */
+    height: 44px;         /* iOS/Android標準サイズ */
+    top: 8px;             /* アドレスバーと重ならないよう調整 */
+    padding: 0;
+  }
+
+  #text { padding: 15px; }
+
+  button {
+    font-size: 1em;
+    padding: 10px 16px;
+  }
+
+  input[type="checkbox"] {
+    transform: scale(1.2);  /* モバイルでは程よく拡大 */
+  }
+
+  .question-option {
+    margin-bottom: 16px;
+  }
+}
