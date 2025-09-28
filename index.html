@@ -165,35 +165,30 @@ function finishReading() {
   if (!startTime) return alert("Please start reading first!");
   const elapsedSec = (Date.now() - startTime) / 1000;
 
-  // 正解選択肢: b, d（本文内容に基づく）
-  const correctAnswers = ["b","d"];
+  // 正解選択肢: b, d
+  const correctAnswers = ["b", "d"];
   const checked = Array.from(document.querySelectorAll(".q1:checked")).map(el => el.value);
   const numCorrect = checked.filter(val => correctAnswers.includes(val)).length;
   const numIncorrect = checked.filter(val => !correctAnswers.includes(val)).length;
   const totalCorrect = correctAnswers.length;
 
-  // Accuracyのロジック
-  // ・正解が1つのみ: 正解+誤答1→50%、正解+誤答2→0%
-  // ・正解が2つ: 正解1つのみ→50%、正解2つのみ→100%、正解2つ+誤答1→50%、全部選択→0%
-  let accuracy = 0;
-  if (numCorrect === 0) {
+  // 指定されたAccuracy計算
+  let accuracy = ((numCorrect - numIncorrect) / totalCorrect) * 100;
+  if (accuracy < 0) {
     accuracy = 0;
-  } else if (numIncorrect >= totalCorrect) {
-    accuracy = 0;
-  } else {
-    accuracy = 1 - (numIncorrect / totalCorrect);
   }
 
   const rawWPM = (wordCount / elapsedSec) * 60;
-  const finalWPM = Math.round(rawWPM * accuracy);
+  const finalWPM = Math.round(rawWPM * (accuracy / 100));
 
   document.getElementById("result").innerHTML =
     `Time: ${elapsedSec.toFixed(1)} sec<br>` +
     `Raw WPM: ${rawWPM.toFixed(1)}<br>` +
-    `Accuracy: ${(accuracy*100).toFixed(0)}%<br>` +
+    `Accuracy: ${accuracy.toFixed(0)}%<br>` +
     `Final WPM (accuracy applied): ${finalWPM}`;
 }
 </script>
 
 </body>
 </html>
+
