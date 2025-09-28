@@ -25,7 +25,7 @@
   #text { 
     border: 1px solid #ccc; 
     padding: 30px; 
-    margin-bottom: 2.8em; /* 英文下の余白2行分 */
+    margin-bottom: 2.8em;
     background: #f9f9f9; 
     max-width: 800px;
     margin-left: auto;
@@ -36,7 +36,7 @@
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 2.8em; /* プレイヤー下の余白2行分 */
+    margin-bottom: 2.8em;
   }
   audio {
     width: 100%;
@@ -86,7 +86,6 @@
     margin-top: 30px;
   }
 
-  /* --- モバイル用スタイル --- */
   @media (max-width: 600px) {
     body { 
       padding-top: 20px;
@@ -125,11 +124,9 @@
 
 <h2 style="max-width:800px;margin:0 auto 30px auto;">Three-minute Training</h2>
 
-<!-- テキスト -->
 <div id="text">
 【2】The Osaka-Kansai Expo started in April with the theme “Designing Future Society for Our Lives.” Now, there are only 15 days left until the Expo closes next month. Up to June 27, more than 22 million people visited the Expo. This is more than the number needed for a positive budget. Every day, over 200,000 people visit. If this continues, about 25 million people will visit in total. This number will be higher than the Expo held in Aichi in 2005. At this Expo, people must book a date and time before coming. Now, most of the tickets for the final days are taken. Many people are trying to visit before the closing. The organizers say tickets cannot be refunded, so people with unused tickets have a problem at the end.</div>
 
-<!-- 音声再生（英文の下、ボタンの上） -->
 <div class="audio-wrapper">
   <audio controls>
     <source src="2.mp3" type="audio/mpeg">
@@ -145,13 +142,10 @@
 <div id="questions">
   <h3>Quiz</h3>
   <label>Select all options below that match the content of the passage.</label></span>
-  <span class="question-option"><input type="checkbox" class="q1" value="a"> The Expo will continue for another two months.
-</span>
-  <span class="question-option"><input type="checkbox" class="q1" value="b"> People need to book a date and time before visiting the Expo.
-</span>
+  <span class="question-option"><input type="checkbox" class="q1" value="a"> The Expo will continue for another two months.</span>
+  <span class="question-option"><input type="checkbox" class="q1" value="b"> People need to book a date and time before visiting the Expo.</span>
   <span class="question-option"><input type="checkbox" class="q1" value="c"> All tickets can be refunded at any time.</span>
-  <span class="question-option"><input type="checkbox" class="q1" value="d"> More people have visited than the number needed for a positive budget.
-</span>
+  <span class="question-option"><input type="checkbox" class="q1" value="d"> More people have visited than the number needed for a positive budget.</span>
 </div>
 
 <div id="result"></div>
@@ -171,15 +165,23 @@ function finishReading() {
   if (!startTime) return alert("Please start reading first!");
   const elapsedSec = (Date.now() - startTime) / 1000;
 
-  const correctAnswers = ["a","c"];
+  // 正解選択肢: b, d（本文内容に基づく）
+  const correctAnswers = ["b","d"];
   const checked = Array.from(document.querySelectorAll(".q1:checked")).map(el => el.value);
   const numCorrect = checked.filter(val => correctAnswers.includes(val)).length;
   const numIncorrect = checked.filter(val => !correctAnswers.includes(val)).length;
+  const totalCorrect = correctAnswers.length;
 
-  // 正しい答えの比率から、誤答ごとに50%減点
-  let accuracy = numCorrect / correctAnswers.length;
-  if(numIncorrect > 0) {
-    accuracy *= Math.pow(0.5, numIncorrect);
+  // Accuracyのロジック
+  // ・正解が1つのみ: 正解+誤答1→50%、正解+誤答2→0%
+  // ・正解が2つ: 正解1つのみ→50%、正解2つのみ→100%、正解2つ+誤答1→50%、全部選択→0%
+  let accuracy = 0;
+  if (numCorrect === 0) {
+    accuracy = 0;
+  } else if (numIncorrect >= totalCorrect) {
+    accuracy = 0;
+  } else {
+    accuracy = 1 - (numIncorrect / totalCorrect);
   }
 
   const rawWPM = (wordCount / elapsedSec) * 60;
@@ -195,5 +197,3 @@ function finishReading() {
 
 </body>
 </html>
-
-
