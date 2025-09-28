@@ -5,11 +5,16 @@
 <title>WPM Quiz with Audio</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
   body { 
     font-family: Arial, sans-serif; 
     padding: 30px; 
     font-size: 1.5em;
-    padding-top: 140px; /* PCデフォルト */
+    padding-top: 40px;
     box-sizing: border-box;
   }
 
@@ -17,17 +22,32 @@
     font-size: 1.5em;
   }
 
+  #text { 
+    border: 1px solid #ccc; 
+    padding: 30px; 
+    margin-bottom: 2.8em; /* 英文下の余白2行分 */
+    background: #f9f9f9; 
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .audio-wrapper {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2.8em; /* プレイヤー下の余白2行分 */
+  }
   audio {
-    position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
-    transform: scale(1.5);
-    transform-origin: top left;
-    z-index: 1000;
+    max-width: 800px;
+    display: block;
+    margin: 0 auto;
     background: #fff;
-    padding: 10px 0;
     box-sizing: border-box;
+    z-index: 1000;
+    padding: 10px 0;
+    border: none;
   }
 
   button {
@@ -41,35 +61,53 @@
     margin-right: 10px;
   }
 
-  #text { 
-    border: 1px solid #ccc; 
-    padding: 30px; 
-    margin-bottom: 30px; 
-    background: #f9f9f9; 
+  #controls { 
+    margin: 0 0 30px 0;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #questions { 
+    margin-top: 30px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  #controls { margin: 30px 0; }
-  #questions { margin-top: 30px; }
-
-  /* チェックボックスの選択肢に余白をあける */
   .question-option {
     display: block;
-    margin-bottom: 18px; /* 好みで調整、1行分空ける */
+    margin-bottom: 18px;
+  }
+
+  #result {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
   }
 
   /* --- モバイル用スタイル --- */
   @media (max-width: 600px) {
     body { 
-      padding-top: 70px; /* オーディオ分の余白を小さく */
+      padding-top: 20px;
       font-size: 1.1em;
+      padding-left: 5px;
+      padding-right: 5px;
     }
+    #text, #controls, #questions, #result, .audio-wrapper {
+      padding: 0 2vw;
+      max-width: 100vw;
+      margin-left: 0;
+      margin-right: 0;
+    }
+    #text { padding: 15px 2vw; }
+    .audio-wrapper { margin-bottom: 2.8em; }
     audio {
-      transform: none;    /* 拡大せず標準サイズ */
-      height: 44px;       /* iOSやAndroid標準UIに合わせる */
-      top: 8px;           /* アドレスバーを避けて少し下げる */
+      width: 100vw;
+      max-width: 100vw;
+      margin: 0 0 0 0;
       padding: 0;
     }
-    #text { padding: 15px; }
     button {
       font-size: 1em;
       padding: 10px 16px;
@@ -77,7 +115,6 @@
     input[type="checkbox"] {
       transform: scale(1.2);
     }
-    /* モバイルでもチェックボックス選択肢に余白を */
     .question-option {
       margin-bottom: 16px;
     }
@@ -86,17 +123,19 @@
 </head>
 <body>
 
-<h2>Three-minute Training</h2>
+<h2 style="max-width:800px;margin:0 auto 30px auto;">Three-minute Training</h2>
 
-<!-- 音声再生 -->
-<audio controls>
-  <source src="2.mp3" type="audio/mpeg">
-  Your browser does not support the audio element.
-</audio>
-  
 <!-- テキスト -->
 <div id="text">
 【2】The Osaka-Kansai Expo started in April with the theme “Designing Future Society for Our Lives.” Now, there are only 15 days left until the Expo closes next month. Up to June 27, more than 22 million people visited the Expo. This is more than the number needed for a positive budget. Every day, over 200,000 people visit. If this continues, about 25 million people will visit in total. This number will be higher than the Expo held in Aichi in 2005. At this Expo, people must book a date and time before coming. Now, most of the tickets for the final days are taken. Many people are trying to visit before the closing. The organizers say tickets cannot be refunded, so people with unused tickets have a problem at the end.</div>
+
+<!-- 音声再生（英文の下、ボタンの上） -->
+<div class="audio-wrapper">
+  <audio controls>
+    <source src="85. Gemini 1.5.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+</div>
 
 <div id="controls">
   <button onclick="startReading()">▶ Start</button>
