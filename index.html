@@ -72,7 +72,7 @@ function finishReading() {
   const elapsedSec = (Date.now() - startTime) / 1000;
 
   // 正答の配列（複数正解対応）
-  const correctAnswers = ["a","c"];
+  const correctAnswers = ["b","d"];
 
   // 選択されたチェックボックスを取得
   const checked = Array.from(document.querySelectorAll(".q1:checked")).map(el => el.value);
@@ -96,5 +96,6 @@ function finishReading() {
 
 </body>
 </html>
+
 
 
